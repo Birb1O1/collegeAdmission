@@ -1,3 +1,4 @@
+//package testJava;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -24,6 +25,9 @@ import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 import java.util.HashSet;
 import java.util.Set;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.DefaultListModel;
 
 public class loginFrame extends JFrame {
 
@@ -38,6 +42,9 @@ public class loginFrame extends JFrame {
 	private JPasswordField passwordField_1;
     private JList<String> list;
     private Set<String> items;
+    
+    public String selectedCourse = "";
+    public boolean finalize = false;
 
 	/**
 	 * Launch the application.
@@ -63,7 +70,21 @@ public class loginFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public loginFrame() {
-		items = new HashSet<>();
+		Set<String> itemCS = new HashSet<>();
+		Set<String> itemIT = new HashSet<>();
+		Set<String> itemIS = new HashSet<>();
+		Set<String> itemEMC = new HashSet<>();
+		
+		DefaultListModel<String> CSsubj = new DefaultListModel<>();
+		CSsubj.addElement("Programming Languages");CSsubj.addElement("Data Structures and Algorithms");CSsubj.addElement("Operating Systems");CSsubj.addElement("Computer Architecture");CSsubj.addElement("Artificial Intelligence");
+		DefaultListModel<String> ITsubj = new DefaultListModel<>();
+		ITsubj.addElement("Networking Fundamentals");ITsubj.addElement("Database Management Systems");ITsubj.addElement("Web Development");ITsubj.addElement("Information Security");ITsubj.addElement("Cloud Computing");
+		DefaultListModel<String> ISsubj = new DefaultListModel<>();
+		ISsubj.addElement("Systems Analysis and Design");ISsubj.addElement("Business Process Modeling");ISsubj.addElement("Enterprise Resource Planning (ERP)");ISsubj.addElement("IT Project Management");ISsubj.addElement("Decision Support Systems");
+		DefaultListModel<String> EMCsubj = new DefaultListModel<>();
+		EMCsubj.addElement("Game Development");EMCsubj.addElement("Multimedia Systems");EMCsubj.addElement("Animation Techniques");EMCsubj.addElement("Digital Audio and Video Production");EMCsubj.addElement("Virtual Reality and Augmented Reality");
+		
+		
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 765, 510);
@@ -81,10 +102,10 @@ public class loginFrame extends JFrame {
 		contentPane.add(register);
 		register.setLayout(null);
 		
-		JPanel login = new JPanel();
-		login.setBounds(9, 10, 1, 450);
-		contentPane.add(login);
-		login.setLayout(null);
+		JPanel loginFrame = new JPanel();
+		loginFrame.setBounds(9, 10, 1, 450);
+		contentPane.add(loginFrame);
+		loginFrame.setLayout(null);
 		
 		JPanel menu = new JPanel();
 		menu.setBounds(9, 10, 1, 450);
@@ -96,10 +117,10 @@ public class loginFrame extends JFrame {
 		contentPane.add(SC);
 		SC.setLayout(null);
 		
-		register.setVisible(true);
-		login.setVisible(false);
+		register.setVisible(false);
+		loginFrame.setVisible(false);
 		menu.setVisible(false);
-		SC.setVisible(false);
+		SC.setVisible(true);
 		
 		//Register menu
 		
@@ -110,7 +131,7 @@ public class loginFrame extends JFrame {
 			{
 				System.out.println("Hello");
 				register.setVisible(false);
-				login.setVisible(true);
+				loginFrame.setVisible(true);
 			}
 		});
 		registB1.setBounds(560, 395, 90, 30);
@@ -165,21 +186,26 @@ public class loginFrame extends JFrame {
 		register.add(lblNewLabel_7);
 		
 		JRadioButton rdbtnNewRadioButton = new JRadioButton("Male");
+		JRadioButton rdbtnFemale = new JRadioButton("Female");
+		rdbtnNewRadioButton.setBounds(485, 305, 73, 23);
+		register.add(rdbtnNewRadioButton);
+		rdbtnFemale.setBounds(560, 305, 111, 23);
+		register.add(rdbtnFemale);
+		
 		rdbtnNewRadioButton.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) 
 			{
+				
 			}
 		});
-		rdbtnNewRadioButton.setBounds(485, 305, 73, 23);
-		register.add(rdbtnNewRadioButton);
 		
-		JRadioButton rdbtnFemale = new JRadioButton("Female");
 		rdbtnFemale.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
+			public void stateChanged(ChangeEvent e) 
+			{
+				
 			}
 		});
-		rdbtnFemale.setBounds(560, 305, 111, 23);
-		register.add(rdbtnFemale);
+
 		
 		JLabel lblNewLabel = new JLabel("ADMISSION PAGE");
 		lblNewLabel.setFont(new Font("Arial", Font.PLAIN, 25));
@@ -191,57 +217,57 @@ public class loginFrame extends JFrame {
 		lblNewLabel_1.setBounds(62, 95, 271, 54);
 		register.add(lblNewLabel_1);
 		
-		//Login menu
+		//loginFrame menu
 		
-		JLabel lblNewLabel_8 = new JLabel("TDG UNIVERSITY LOGIN PAGE");
+		JLabel lblNewLabel_8 = new JLabel("TDG UNIVERSITY loginFrame PAGE");
 		lblNewLabel_8.setFont(new Font("Arial", Font.PLAIN, 35));
 		lblNewLabel_8.setBounds(111, 0, 545, 93);
-		login.add(lblNewLabel_8);
+		loginFrame.add(lblNewLabel_8);
 		
-		JButton loginB = new JButton("Login");
-		loginB.addActionListener(new ActionListener() {
+		JButton loginFrameB = new JButton("loginFrame");
+		loginFrameB.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
-				login.setVisible(false);
+				loginFrame.setVisible(false);
 				menu.setVisible(true);
 			}
 		});
-		loginB.setBounds(215, 265, 89, 23);
-		login.add(loginB);
+		loginFrameB.setBounds(215, 265, 89, 23);
+		loginFrame.add(loginFrameB);
 		
 		textField_4 = new JTextField();
 		textField_4.setBounds(130, 135, 269, 20);
-		login.add(textField_4);
+		loginFrame.add(textField_4);
 		textField_4.setColumns(10);
 		
 		passwordField_1 = new JPasswordField();
 		passwordField_1.setBounds(130, 195, 270, 20);
-		login.add(passwordField_1);
+		loginFrame.add(passwordField_1);
 		
 		JLabel lblNewLabel_9 = new JLabel("Gmail");
 		lblNewLabel_9.setFont(new Font("Arial", Font.PLAIN, 15));
 		lblNewLabel_9.setBounds(100, 105, 73, 14);
-		login.add(lblNewLabel_9);
+		loginFrame.add(lblNewLabel_9);
 		
 		JLabel lblNewLabel_10 = new JLabel("Passsword");
 		lblNewLabel_10.setFont(new Font("Arial", Font.PLAIN, 15));
 		lblNewLabel_10.setBounds(100, 165, 108, 14);
-		login.add(lblNewLabel_10);
+		loginFrame.add(lblNewLabel_10);
 		
 		JLabel lblNewLabel_11 = new JLabel("Your detail(s) are incorrect");
 		lblNewLabel_11.setBounds(195, 240, 140, 14);
-		login.add(lblNewLabel_11);
+		loginFrame.add(lblNewLabel_11);
 		
 		JButton registB2 = new JButton("Register");
 		registB2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
 				register.setVisible(true);
-				login.setVisible(false);
+				loginFrame.setVisible(false);
 			}
 		});
 		registB2.setBounds(215, 311, 89, 23);
-		login.add(registB2);
+		loginFrame.add(registB2);
 		
 		JLabel lblNewLabel_12 = new JLabel("Welcome to TDG University");
 		lblNewLabel_12.setFont(new Font("Arial", Font.PLAIN, 25));
@@ -277,7 +303,7 @@ public class loginFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) 
 			{
 				menu.setVisible(false);
-				login.setVisible(true);
+				loginFrame.setVisible(true);
 			}
 		});
 		logout.setBounds(600, 10, 89, 23);
@@ -285,7 +311,7 @@ public class loginFrame extends JFrame {
 		
 		JLabel lblNewLabel_17_1 = new JLabel("Course");
 		lblNewLabel_17_1.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_17_1.setBounds(310, 110, 67, 14);
+		lblNewLabel_17_1.setBounds(270, 75, 67, 14);
 		SC.add(lblNewLabel_17_1);
 		
 		JLabel lblNewLabel_16 = new JLabel("Select a Course and Subject");
@@ -304,8 +330,13 @@ public class loginFrame extends JFrame {
 		back.setBounds(30, 25, 89, 23);
 		SC.add(back);
 		
-		JList subj = new JList();
-		subj.setModel(new AbstractListModel() {
+		
+		// Subject selecter
+		
+		
+		JList<String> subjCS = new JList<>(CSsubj);
+
+		subjCS.setModel(new AbstractListModel() {
 			String[] values = new String[] {"Programming Languages", "Data Structures and Algorithms", "Operating Systems", "Computer Architecture", "Artificial Intelligence"};
 			public int getSize() {
 				return values.length;
@@ -314,50 +345,221 @@ public class loginFrame extends JFrame {
 				return values[index];
 			}
 		});
-		subj.setBounds(500, 135, 190, 110);
-		SC.add(subj);
+		subjCS.setBounds(460, 100, 230, 110);
+		SC.add(subjCS);
+		
+		JList subjIT = new JList();
+		subjIT.setModel(new AbstractListModel() {
+			String[] values = new String[] {"Networking Fundamentals", "Database Management Systems", "Web Development", "Information Security", "Cloud Computing"};
+			public int getSize() {
+				return values.length;
+			}
+			public Object getElementAt(int index) {
+				return values[index];
+			}
+		});
+		subjIT.setBounds(460, 100, 230, 110);
+		SC.add(subjIT);
+		
+		JList subjIS = new JList();
+		subjIS.setModel(new AbstractListModel() {
+			String[] values = new String[] {"Systems Analysis and Design", "Business Process Modeling", "Enterprise Resource Planning (ERP)", "IT Project Management", "Decision Support Systems"};
+			public int getSize() {
+				return values.length;
+			}
+			public Object getElementAt(int index) {
+				return values[index];
+			}
+		});
+		subjIS.setBounds(460, 100, 230, 110);
+		SC.add(subjIS);
+		
+		JList subjEMC = new JList();
+		subjEMC.setModel(new AbstractListModel() {
+			String[] values = new String[] {"Game Development", "Multimedia Systems", "Animation Techniques", "Digital Audio and Video Production", "Virtual Reality and Augmented Reality"};
+			public int getSize() {
+				return values.length;
+			}
+			public Object getElementAt(int index) {
+				return values[index];
+			}
+		});
+		subjEMC.setBounds(460, 100, 230, 110);
+		SC.add(subjEMC);
+		
+		// Subjects per course end
+		
+		JList chSubj = new JList();
+		chSubj.setBounds(460, 279, 230, 110);
+		SC.add(chSubj);
+		
+		// Subjects event listeners
+		subjCS.addListSelectionListener(e -> {
+            int[] selectedIndices = subjCS.getSelectedIndices();
+            for (int index : selectedIndices) {
+                String item = CSsubj.getElementAt(index);
+                if (itemCS.add(item)) {
+                    // Item was added to the set, so it's unique
+                    System.out.println("Clicked item: " + item);
+                    
+                } else {
+                    // Item was already in the set, so it's a duplicate
+                    System.out.println("Duplicate item clicked: " + item);
+                }
+            }
+        });
+		
+		subjIT.addListSelectionListener(e -> {
+            int[] selectedIndices = subjIT.getSelectedIndices();
+            for (int index : selectedIndices) {
+                String item2 = ITsubj.getElementAt(index);
+                if (itemIT.add(item2)) {
+                    // Item was added to the set, so it's unique
+                    System.out.println("Clicked item: " + item2);
+                } else {
+                    // Item was already in the set, so it's a duplicate
+                    System.out.println("Duplicate item clicked: " + item2);
+                }
+            }
+        });;
+        
+		subjIS.addListSelectionListener(e -> {
+            int[] selectedIndices = subjIS.getSelectedIndices();
+            for (int index : selectedIndices) {
+                String item3 = ISsubj.getElementAt(index);
+                if (itemIS.add(item3)) {
+                    // Item was added to the set, so it's unique
+                    System.out.println("Clicked item: " + item3);
+                } else {
+                    // Item was already in the set, so it's a duplicate
+                    System.out.println("Duplicate item clicked: " + item3);
+                }
+            }
+        });;
+		
+		subjEMC.addListSelectionListener(e -> {
+            int[] selectedIndices = subjEMC.getSelectedIndices();
+            for (int index : selectedIndices) {
+                String item4 = EMCsubj.getElementAt(index);
+                if (itemEMC.add(item4)) {
+                    // Item was added to the set, so it's unique
+                    System.out.println("Clicked item: " + item4);
+                } else {
+                    // Item was already in the set, so it's a duplicate
+                    System.out.println("Duplicate item clicked: " + item4);
+                }
+            }
+        });;
+		
+		// Subject end events listeners
+		
+		
+		
+		JLabel lblNewLabel_18 = new JLabel("Chosen subjects");
+		lblNewLabel_18.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblNewLabel_18.setBounds(510, 254, 129, 14);
+		SC.add(lblNewLabel_18);
+		
 		
 		JLabel lblNewLabel_17 = new JLabel("Subjects\r\n");
 		lblNewLabel_17.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_17.setBounds(535, 110, 67, 14);
+		lblNewLabel_17.setBounds(540, 75, 67, 14);
 		SC.add(lblNewLabel_17);
 		
-		JButton btnNewButton = new JButton("Finalize");
-		btnNewButton.setBounds(535, 256, 90, 23);
-		SC.add(btnNewButton);
-		
-		JButton btnNewButton_1 = new JButton("Enroll");
-		btnNewButton_1.setBounds(410, 370, 89, 23);
-		SC.add(btnNewButton_1);
 		
 		JComboBox course = new JComboBox();
+		
+		course.setModel(new DefaultComboBoxModel(new String[] {"Computer Science", "Information Technology", "Information System", "Entertainment and Multimedia Computing"}));
+		course.setBounds(180, 100, 250, 25);
+		
+        selectedCourse = "Computer Science";
+        
+        System.out.println(selectedCourse);
 		course.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) 
 			{
-				if (e.getStateChange() == java.awt.event.ItemEvent.SELECTED) 
+				if (e.getStateChange() == ItemEvent.SELECTED) 
 				{
 			        int selectedIndex = course.getSelectedIndex();
 			        if (selectedIndex == 0)
 			        {
-			        	System.out.println("Comp Sci");
+			        	selectedCourse = "Computer Science";
+			        	System.out.println("CS");
+			        	System.out.println(selectedCourse);
+			        	subjCS.setVisible(true);
+			        	subjIT.setVisible(false);
+			        	subjIS.setVisible(false);
+			        	subjEMC.setVisible(false);
+			        	
+			        	itemCS.clear();
+			        	itemIT.clear();
+			        	itemIS.clear();
+			        	itemEMC.clear();
+			        	
 			        }
 			        else if (selectedIndex == 1)
 			        {
+			        	selectedCourse = "Information Technology";
 			        	System.out.println("IT");
+			        	System.out.println(selectedCourse);
+			        	subjCS.setVisible(false);
+			        	subjIT.setVisible(true);
+			        	subjIS.setVisible(false);
+			        	subjEMC.setVisible(false);
+			        	
+			        	itemCS.clear();
+			        	itemIT.clear();
+			        	itemIS.clear();
+			        	itemEMC.clear();
 			        }
 			        else if (selectedIndex == 2)
 			        {
+			        	selectedCourse = "Information System";
 			        	System.out.println("IS");
+			        	System.out.println(selectedCourse);
+			        	subjCS.setVisible(false);
+			        	subjIT.setVisible(false);
+			        	subjIS.setVisible(true);
+			        	subjEMC.setVisible(false);
+			        	
+			        	itemCS.clear();
+			        	itemIT.clear();
+			        	itemIS.clear();
+			        	itemEMC.clear();
 			        }
 			        else if (selectedIndex == 3)
 			        {
+			        	selectedCourse = "Entertainment and Multimedia Computing";
 			        	System.out.println("EMC");
+			        	System.out.println(selectedCourse);
+			        	subjCS.setVisible(false);
+			        	subjIT.setVisible(false);
+			        	subjIS.setVisible(false);
+			        	subjEMC.setVisible(true);
+			        	
+			        	itemCS.clear();
+			        	itemIT.clear();
+			        	itemIS.clear();
+			        	itemEMC.clear();
 			        }
 			    }
 			}
 		});
-		course.setModel(new DefaultComboBoxModel(new String[] {"Computer Science", "Information Technology", "Information System", "Entertainment and Multimedia Computing"}));
-		course.setBounds(240, 135, 220, 25);
 		SC.add(course);
+		
+		JButton btnNewButton = new JButton("Finalize");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				
+			}
+		});
+		btnNewButton.setBounds(525, 400, 90, 23);
+		SC.add(btnNewButton);
+		
+		
+		JButton btnNewButton_1 = new JButton("Enroll");
+		btnNewButton_1.setBounds(305, 400, 89, 23);
+		SC.add(btnNewButton_1);
 	}
 }
