@@ -21,6 +21,9 @@ import javax.swing.SwingConstants;
 import javax.swing.JToggleButton;
 import javax.swing.JList;
 import javax.swing.AbstractListModel;
+import javax.swing.ButtonGroup;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 import java.util.HashSet;
@@ -28,24 +31,55 @@ import java.util.Set;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.DefaultListModel;
+import javax.swing.ListSelectionModel;
+import javax.swing.ListModel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.InputMethodListener;
+import java.awt.event.InputMethodEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
+
+import javax.swing.event.*;
+import java.awt.Dimension;
 
 public class loginFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textField_1;
-	private JPasswordField passwordField;
-	private JTextField textField;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JPasswordField passwordField_1;
+	private JTextField name;
+	private JPasswordField pass;
+	private JTextField gmail;
+	private JTextField pNum;
+	private JTextField bday;
+	private JTextField gmailL;
+	private JPasswordField passL;
     private JList<String> list;
     private Set<String> items;
     
     public String selectedCourse = "";
-    public boolean finalize = false;
-
+    private JTextField textField_5;
+    
+    // Student information
+    
+    public String studentName = "";
+    public String studentGmail = "";
+    public long studentPhoneNum = 0;
+    public String birthday = "";
+    public Character gender;
+    public String password = "";
+    public int GPA = 0;
+    
+    public String studentName1 = "";
+    public String studentGmail1 = "";
+    public long studentPhoneNum1 = 0;
+    public String birthday1 = "";
+    public Character gender1;
+    public String password1 = "";
+    public int GPA1 = 0;
+    
+    public boolean realNum = true;
+    
 	/**
 	 * Launch the application.
 	 */
@@ -83,7 +117,7 @@ public class loginFrame extends JFrame {
 		ISsubj.addElement("Systems Analysis and Design");ISsubj.addElement("Business Process Modeling");ISsubj.addElement("Enterprise Resource Planning (ERP)");ISsubj.addElement("IT Project Management");ISsubj.addElement("Decision Support Systems");
 		DefaultListModel<String> EMCsubj = new DefaultListModel<>();
 		EMCsubj.addElement("Game Development");EMCsubj.addElement("Multimedia Systems");EMCsubj.addElement("Animation Techniques");EMCsubj.addElement("Digital Audio and Video Production");EMCsubj.addElement("Virtual Reality and Augmented Reality");
-		
+		DefaultListModel<String> subjStore = new DefaultListModel<>();
 		
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -97,18 +131,19 @@ public class loginFrame extends JFrame {
 		contentPane.setLayout(null);
 		
 		JPanel register = new JPanel();
+		register.setPreferredSize(new Dimension(20, 10));
 		register.setEnabled(false);
-		register.setBounds(9, 10, 1, 450);
+		register.setBounds(9, 10, 730, 450);
 		contentPane.add(register);
 		register.setLayout(null);
 		
 		JPanel loginFrame = new JPanel();
-		loginFrame.setBounds(9, 10, 1, 450);
+		loginFrame.setBounds(9, 10, 730, 450);
 		contentPane.add(loginFrame);
 		loginFrame.setLayout(null);
 		
 		JPanel menu = new JPanel();
-		menu.setBounds(9, 10, 1, 450);
+		menu.setBounds(9, 10, 730, 450);
 		contentPane.add(menu);
 		menu.setLayout(null);
 		
@@ -117,95 +152,12 @@ public class loginFrame extends JFrame {
 		contentPane.add(SC);
 		SC.setLayout(null);
 		
-		register.setVisible(false);
+		register.setVisible(true);
 		loginFrame.setVisible(false);
 		menu.setVisible(false);
-		SC.setVisible(true);
+		SC.setVisible(false);
 		
 		//Register menu
-		
-		JButton registB1 = new JButton("Register");
-		registB1.addActionListener(new ActionListener() 
-		{
-			public void actionPerformed(ActionEvent e) 
-			{
-				System.out.println("Hello");
-				register.setVisible(false);
-				loginFrame.setVisible(true);
-			}
-		});
-		registB1.setBounds(560, 395, 90, 30);
-		register.add(registB1);
-		
-		JLabel lblNewLabel_2 = new JLabel("Full name");
-		lblNewLabel_2.setBounds(440, 35, 65, 14);
-		register.add(lblNewLabel_2);
-		
-		JLabel lblNewLabel_3 = new JLabel("Password");
-		lblNewLabel_3.setBounds(440, 335, 65, 14);
-		register.add(lblNewLabel_3);
-		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(450, 65, 240, 20);
-		register.add(textField_1);
-		
-		passwordField = new JPasswordField();
-		passwordField.setBounds(450, 365, 240, 20);
-		register.add(passwordField);
-		
-		JLabel lblNewLabel_4 = new JLabel("Gmail");
-		lblNewLabel_4.setBounds(440, 95, 49, 14);
-		register.add(lblNewLabel_4);
-		
-		textField = new JTextField();
-		textField.setBounds(450, 125, 240, 20);
-		register.add(textField);
-		textField.setColumns(10);
-		
-		JLabel lblNewLabel_5 = new JLabel("Phone number");
-		lblNewLabel_5.setBounds(440, 155, 105, 14);
-		register.add(lblNewLabel_5);
-		
-		textField_2 = new JTextField();
-		textField_2.setBounds(450, 185, 240, 20);
-		register.add(textField_2);
-		textField_2.setColumns(10);
-		
-		JLabel lblNewLabel_6 = new JLabel("Birthday");
-		lblNewLabel_6.setBounds(440, 215, 49, 14);
-		register.add(lblNewLabel_6);
-		
-		textField_3 = new JTextField();
-		textField_3.setBounds(450, 245, 240, 20);
-		register.add(textField_3);
-		textField_3.setColumns(10);
-		
-		JLabel lblNewLabel_7 = new JLabel("Gender");
-		lblNewLabel_7.setBounds(440, 275, 49, 14);
-		register.add(lblNewLabel_7);
-		
-		JRadioButton rdbtnNewRadioButton = new JRadioButton("Male");
-		JRadioButton rdbtnFemale = new JRadioButton("Female");
-		rdbtnNewRadioButton.setBounds(485, 305, 73, 23);
-		register.add(rdbtnNewRadioButton);
-		rdbtnFemale.setBounds(560, 305, 111, 23);
-		register.add(rdbtnFemale);
-		
-		rdbtnNewRadioButton.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) 
-			{
-				
-			}
-		});
-		
-		rdbtnFemale.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) 
-			{
-				
-			}
-		});
-
 		
 		JLabel lblNewLabel = new JLabel("ADMISSION PAGE");
 		lblNewLabel.setFont(new Font("Arial", Font.PLAIN, 25));
@@ -217,32 +169,306 @@ public class loginFrame extends JFrame {
 		lblNewLabel_1.setBounds(62, 95, 271, 54);
 		register.add(lblNewLabel_1);
 		
-		//loginFrame menu
+		JLabel errorNum = new JLabel("PLEASE INPUT A PROPER NUMBER");
+		errorNum.setForeground(new Color(255, 0, 0));
+		errorNum.setBounds(300, 405, 245, 15);
+		register.add(errorNum);
 		
-		JLabel lblNewLabel_8 = new JLabel("TDG UNIVERSITY loginFrame PAGE");
+		errorNum.setVisible(false);
+		
+		JButton registB1 = new JButton("Register");
+		registB1.setBounds(530, 395, 90, 30);
+		register.add(registB1);
+		
+		JLabel lblNewLabel_2 = new JLabel("Full name");
+		lblNewLabel_2.setBounds(440, 35, 65, 14);
+		register.add(lblNewLabel_2);
+		
+		JLabel lblNewLabel_3 = new JLabel("Password");
+		lblNewLabel_3.setBounds(440, 335, 65, 14);
+		register.add(lblNewLabel_3);
+		
+		name = new JTextField();
+		name.setColumns(10);
+		name.setBounds(450, 65, 240, 20);
+		register.add(name);
+		
+		pass = new JPasswordField();
+		pass.setBounds(450, 365, 240, 20);
+		register.add(pass);
+		
+		JLabel lblNewLabel_4 = new JLabel("Gmail");
+		lblNewLabel_4.setBounds(440, 95, 49, 14);
+		register.add(lblNewLabel_4);
+		
+		gmail = new JTextField();
+		gmail.setBounds(450, 125, 240, 20);
+		register.add(gmail);
+		gmail.setColumns(10);
+		
+		JLabel lblNewLabel_5 = new JLabel("Phone number");
+		lblNewLabel_5.setBounds(440, 155, 105, 14);
+		register.add(lblNewLabel_5);
+		
+		JTextField pNum = new JTextField(20);
+		pNum.setMinimumSize(new Dimension(20, 20));
+		pNum.setBounds(450, 185, 240, 20);
+		register.add(pNum);
+		
+		JLabel lblNewLabel_6 = new JLabel("Birthday");
+		lblNewLabel_6.setBounds(440, 215, 49, 14);
+		register.add(lblNewLabel_6);
+		
+		bday = new JTextField();
+		bday.setBounds(450, 245, 240, 20);
+		register.add(bday);
+		bday.setColumns(10);
+		
+		JLabel lblNewLabel_7 = new JLabel("Gender");
+		lblNewLabel_7.setBounds(440, 275, 49, 14);
+		register.add(lblNewLabel_7);
+		
+		ButtonGroup group = new ButtonGroup();
+		
+		JRadioButton male = new JRadioButton("Male");
+
+		JRadioButton female = new JRadioButton("Female");
+		
+		male.setBounds(485, 305, 73, 23);
+		register.add(male);
+		female.setBounds(560, 305, 111, 23);
+		register.add(female);
+		group.add(male);
+		group.add(female);
+		
+		// End of registration menu
+		
+		//Registration page events
+		
+		male.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) 
+			{
+				gender = 'M';
+				System.out.println("Male");
+			}
+		});
+
+		female.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) 
+			{
+				gender = 'F';
+				System.out.println("Female");
+			}
+		});
+		
+        name.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                updateLabel();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                updateLabel();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                updateLabel();
+            }
+
+            private void updateLabel()  
+            {
+            	studentName = name.getText();
+                // Do something with the text here
+                System.out.println("Text: " + studentName);
+            }
+        });
+		
+        gmail.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                updateLabel();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                updateLabel();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                updateLabel();
+            }
+
+            private void updateLabel()  
+            {
+            	studentGmail = gmail.getText();
+                // Do something with the text here
+                System.out.println("Gmail: " + studentGmail);
+            }
+        });
+        
+        	pNum.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) 
+            {
+                updateLong();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                updateLong();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                updateLong();
+            }
+
+            private long updateLong() {
+                String text = pNum.getText();
+                try {
+                    // Extract the first 11 digits from the input
+                    String first11Digits = text.substring(0, Math.min(text.length(), 12));
+
+                    long number = Integer.parseInt(first11Digits);
+
+                    // Store the parsed integer in studentPhoneNum
+                    studentPhoneNum = number;
+
+                    // Do something with the integer
+                    System.out.println("Integer: " + studentPhoneNum);
+                    realNum = true;
+                    System.out.println(realNum);
+
+                    return number; // Return the parsed integer
+                } catch (NumberFormatException ex) {
+                    // Handle the exception if the input is not a valid integer
+                    System.out.println("Invalid integer input: " + text);
+                    realNum = false;
+                    System.out.println(realNum);
+                    return 0; // Return a default value or handle the error appropriately
+                }
+            }
+        });
+        	
+        bday.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                updateLabel();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                updateLabel();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                updateLabel();
+            }
+
+            private void updateLabel()  
+            {
+            	birthday = bday.getText();
+                // Do something with the text here
+                System.out.println("Bday: " + birthday);
+            }
+        });
+        
+        pass.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                updateLabel();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                updateLabel();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                updateLabel();
+            }
+
+            private void updateLabel()  
+            {
+                char[] passwordChar = pass.getPassword();
+                password = String.valueOf(passwordChar);
+
+                // Do something with the password here
+                System.out.println("Password: " + password);
+            }
+        });
+        
+		registB1.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				if (realNum == true)
+				{
+					System.out.println("Hello");
+					register.setVisible(false);
+					loginFrame.setVisible(true);
+					
+					
+					
+					studentName1 = studentName;
+					studentGmail1 = studentGmail;
+					studentPhoneNum1 = studentPhoneNum;
+					birthday1 = birthday;
+					password1 = password;
+					
+					studentName = "";
+					studentGmail = "";
+					//studentPhoneNum = 0;
+					birthday = "";
+					//password = "";
+					
+					
+					
+					System.out.println("Name:" + studentName1);
+					System.out.println("Gmail: " + studentGmail1);
+					System.out.println("Number: " + studentPhoneNum1);
+					System.out.println("Birthday: " + birthday1);
+					System.out.println("Password: " + password1);
+					
+					errorNum.setVisible(false);
+				}
+				else
+				{
+					errorNum.setVisible(true);
+				}
+			}
+		});
+		// End of registration page events
+		
+		
+		//login menu
+		
+		JLabel lblNewLabel_8 = new JLabel("TDG UNIVERSITY LOGIN PAGE");
 		lblNewLabel_8.setFont(new Font("Arial", Font.PLAIN, 35));
 		lblNewLabel_8.setBounds(111, 0, 545, 93);
 		loginFrame.add(lblNewLabel_8);
 		
-		JButton loginFrameB = new JButton("loginFrame");
-		loginFrameB.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) 
-			{
-				loginFrame.setVisible(false);
-				menu.setVisible(true);
-			}
-		});
+		JButton loginFrameB = new JButton("Login");
 		loginFrameB.setBounds(215, 265, 89, 23);
 		loginFrame.add(loginFrameB);
 		
-		textField_4 = new JTextField();
-		textField_4.setBounds(130, 135, 269, 20);
-		loginFrame.add(textField_4);
-		textField_4.setColumns(10);
+		// Login panel
 		
-		passwordField_1 = new JPasswordField();
-		passwordField_1.setBounds(130, 195, 270, 20);
-		loginFrame.add(passwordField_1);
+		gmailL = new JTextField();
+		gmailL.setBounds(130, 135, 269, 20);
+		loginFrame.add(gmailL);
+		gmailL.setColumns(10);
+		
+		passL = new JPasswordField();
+		passL.setBounds(130, 195, 270, 20);
+		loginFrame.add(passL);
 		
 		JLabel lblNewLabel_9 = new JLabel("Gmail");
 		lblNewLabel_9.setFont(new Font("Arial", Font.PLAIN, 15));
@@ -254,9 +480,11 @@ public class loginFrame extends JFrame {
 		lblNewLabel_10.setBounds(100, 165, 108, 14);
 		loginFrame.add(lblNewLabel_10);
 		
-		JLabel lblNewLabel_11 = new JLabel("Your detail(s) are incorrect");
-		lblNewLabel_11.setBounds(195, 240, 140, 14);
-		loginFrame.add(lblNewLabel_11);
+		JLabel detailsIncor = new JLabel("Your detail(s) are incorrect");
+		detailsIncor.setBounds(185, 240, 200, 14);
+		loginFrame.add(detailsIncor);
+		
+		detailsIncor.setVisible(false);
 		
 		JButton registB2 = new JButton("Register");
 		registB2.addActionListener(new ActionListener() {
@@ -268,6 +496,75 @@ public class loginFrame extends JFrame {
 		});
 		registB2.setBounds(215, 311, 89, 23);
 		loginFrame.add(registB2);
+		
+        	gmailL.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                updateLabel();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                updateLabel();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                updateLabel();
+            }
+
+            private void updateLabel()  
+            {
+            	studentGmail = gmailL.getText();
+                // Do something with the text here
+                System.out.println("Gmail: " + studentGmail);
+            }
+            
+            
+        });
+		
+            passL.getDocument().addDocumentListener(new DocumentListener() {
+                @Override
+                public void insertUpdate(DocumentEvent e) {
+                    updateLabel();
+                }
+
+                @Override
+                public void removeUpdate(DocumentEvent e) {
+                    updateLabel();
+                }
+
+                @Override
+                public void changedUpdate(DocumentEvent e) {
+                    updateLabel();
+                }
+
+                private void updateLabel()  
+                {
+                    char[] passwordChar1 = passL.getPassword();
+                    password = String.valueOf(passwordChar1);
+
+                    // Do something with the password here
+                    System.out.println("Pass: " + password);
+                }
+            });
+            
+    		loginFrameB.addActionListener(new ActionListener() {
+    			public void actionPerformed(ActionEvent e) 
+    			{
+    				if(studentGmail1.equals(studentGmail) && password1.equals(password))
+    				{
+        				loginFrame.setVisible(false);
+        				menu.setVisible(true);
+        				detailsIncor.setVisible(false);
+    				}
+    				else
+    				{
+    					detailsIncor.setVisible(true);
+    				}
+    			}
+    		});
+		// Login end
 		
 		JLabel lblNewLabel_12 = new JLabel("Welcome to TDG University");
 		lblNewLabel_12.setFont(new Font("Arial", Font.PLAIN, 25));
@@ -287,6 +584,7 @@ public class loginFrame extends JFrame {
 		lblNewLabel_14.setBounds(45, 160, 600, 14);
 		menu.add(lblNewLabel_14);
 		
+		
 		JButton studentC = new JButton("Student center");
 		studentC.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
@@ -295,7 +593,7 @@ public class loginFrame extends JFrame {
 				SC.setVisible(true);
 			}
 		});
-		studentC.setBounds(45, 250, 117, 23);
+		studentC.setBounds(45, 350, 117, 23);
 		menu.add(studentC);
 		
 		JButton logout = new JButton("Logout");
@@ -308,6 +606,18 @@ public class loginFrame extends JFrame {
 		});
 		logout.setBounds(600, 10, 89, 23);
 		menu.add(logout);
+		
+		JLabel lblNewLabel_11 = new JLabel("New label");
+		lblNewLabel_11.setBounds(45, 205, 49, 14);
+		menu.add(lblNewLabel_11);
+		
+		JLabel lblNewLabel_19 = new JLabel("New label");
+		lblNewLabel_19.setBounds(45, 235, 49, 14);
+		menu.add(lblNewLabel_19);
+		
+		JLabel lblNewLabel_20 = new JLabel("New label");
+		lblNewLabel_20.setBounds(45, 265, 49, 14);
+		menu.add(lblNewLabel_20);
 		
 		JLabel lblNewLabel_17_1 = new JLabel("Course");
 		lblNewLabel_17_1.setFont(new Font("Tahoma", Font.BOLD, 15));
@@ -331,8 +641,16 @@ public class loginFrame extends JFrame {
 		SC.add(back);
 		
 		
-		// Subject selecter
+		JLabel lblNewLabel_17_1_1 = new JLabel("GPA");
+		lblNewLabel_17_1_1.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblNewLabel_17_1_1.setBounds(55, 75, 40, 14);
+		SC.add(lblNewLabel_17_1_1);
 		
+		
+		// Subject selecter
+		JList<String> blank = new JList<String>();
+		blank.setBounds(460, 100, 230, 110);
+		SC.add(blank);
 		
 		JList<String> subjCS = new JList<>(CSsubj);
 
@@ -349,6 +667,7 @@ public class loginFrame extends JFrame {
 		SC.add(subjCS);
 		
 		JList subjIT = new JList();
+		subjIT.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		subjIT.setModel(new AbstractListModel() {
 			String[] values = new String[] {"Networking Fundamentals", "Database Management Systems", "Web Development", "Information Security", "Cloud Computing"};
 			public int getSize() {
@@ -362,6 +681,7 @@ public class loginFrame extends JFrame {
 		SC.add(subjIT);
 		
 		JList subjIS = new JList();
+		subjIS.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		subjIS.setModel(new AbstractListModel() {
 			String[] values = new String[] {"Systems Analysis and Design", "Business Process Modeling", "Enterprise Resource Planning (ERP)", "IT Project Management", "Decision Support Systems"};
 			public int getSize() {
@@ -375,6 +695,7 @@ public class loginFrame extends JFrame {
 		SC.add(subjIS);
 		
 		JList subjEMC = new JList();
+		subjEMC.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		subjEMC.setModel(new AbstractListModel() {
 			String[] values = new String[] {"Game Development", "Multimedia Systems", "Animation Techniques", "Digital Audio and Video Production", "Virtual Reality and Augmented Reality"};
 			public int getSize() {
@@ -389,7 +710,7 @@ public class loginFrame extends JFrame {
 		
 		// Subjects per course end
 		
-		JList chSubj = new JList();
+		JList<String> chSubj = new JList<>(subjStore);
 		chSubj.setBounds(460, 279, 230, 110);
 		SC.add(chSubj);
 		
@@ -398,11 +719,13 @@ public class loginFrame extends JFrame {
             int[] selectedIndices = subjCS.getSelectedIndices();
             for (int index : selectedIndices) {
                 String item = CSsubj.getElementAt(index);
-                if (itemCS.add(item)) {
+                if (!subjStore.contains(item)) {
                     // Item was added to the set, so it's unique
                     System.out.println("Clicked item: " + item);
-                    
-                } else {
+                    subjStore.addElement(item);
+                } 
+                else 
+                {
                     // Item was already in the set, so it's a duplicate
                     System.out.println("Duplicate item clicked: " + item);
                 }
@@ -413,10 +736,13 @@ public class loginFrame extends JFrame {
             int[] selectedIndices = subjIT.getSelectedIndices();
             for (int index : selectedIndices) {
                 String item2 = ITsubj.getElementAt(index);
-                if (itemIT.add(item2)) {
+                if (!subjStore.contains(item2)) {
                     // Item was added to the set, so it's unique
                     System.out.println("Clicked item: " + item2);
-                } else {
+                    subjStore.addElement(item2);
+                } 
+                else 
+                {
                     // Item was already in the set, so it's a duplicate
                     System.out.println("Duplicate item clicked: " + item2);
                 }
@@ -427,10 +753,13 @@ public class loginFrame extends JFrame {
             int[] selectedIndices = subjIS.getSelectedIndices();
             for (int index : selectedIndices) {
                 String item3 = ISsubj.getElementAt(index);
-                if (itemIS.add(item3)) {
+                if (!subjStore.contains(item3)) {
                     // Item was added to the set, so it's unique
                     System.out.println("Clicked item: " + item3);
-                } else {
+                    subjStore.addElement(item3);
+                } 
+                else 
+                {
                     // Item was already in the set, so it's a duplicate
                     System.out.println("Duplicate item clicked: " + item3);
                 }
@@ -441,10 +770,13 @@ public class loginFrame extends JFrame {
             int[] selectedIndices = subjEMC.getSelectedIndices();
             for (int index : selectedIndices) {
                 String item4 = EMCsubj.getElementAt(index);
-                if (itemEMC.add(item4)) {
+                if (!subjStore.contains(item4)) {
                     // Item was added to the set, so it's unique
                     System.out.println("Clicked item: " + item4);
-                } else {
+                    subjStore.addElement(item4);
+                } 
+                else 
+                {
                     // Item was already in the set, so it's a duplicate
                     System.out.println("Duplicate item clicked: " + item4);
                 }
@@ -473,6 +805,7 @@ public class loginFrame extends JFrame {
 		course.setBounds(180, 100, 250, 25);
 		
         selectedCourse = "Computer Science";
+        course.setSelectedIndex(-1);
         
         System.out.println(selectedCourse);
 		course.addItemListener(new ItemListener() {
@@ -490,12 +823,19 @@ public class loginFrame extends JFrame {
 			        	subjIT.setVisible(false);
 			        	subjIS.setVisible(false);
 			        	subjEMC.setVisible(false);
+			        	blank.setVisible(false);
 			        	
 			        	itemCS.clear();
 			        	itemIT.clear();
 			        	itemIS.clear();
 			        	itemEMC.clear();
 			        	
+			        	subjCS.clearSelection();
+			        	subjIT.clearSelection();
+			        	subjIS.clearSelection();
+			        	subjEMC.clearSelection();
+			        	
+			        	subjStore.clear();
 			        }
 			        else if (selectedIndex == 1)
 			        {
@@ -506,11 +846,19 @@ public class loginFrame extends JFrame {
 			        	subjIT.setVisible(true);
 			        	subjIS.setVisible(false);
 			        	subjEMC.setVisible(false);
+			        	blank.setVisible(false);
 			        	
 			        	itemCS.clear();
 			        	itemIT.clear();
 			        	itemIS.clear();
 			        	itemEMC.clear();
+			        	
+			        	subjCS.clearSelection();
+			        	subjIT.clearSelection();
+			        	subjIS.clearSelection();
+			        	subjEMC.clearSelection();
+			        	
+			        	subjStore.clear();
 			        }
 			        else if (selectedIndex == 2)
 			        {
@@ -521,11 +869,19 @@ public class loginFrame extends JFrame {
 			        	subjIT.setVisible(false);
 			        	subjIS.setVisible(true);
 			        	subjEMC.setVisible(false);
+			        	blank.setVisible(false);
 			        	
 			        	itemCS.clear();
 			        	itemIT.clear();
 			        	itemIS.clear();
 			        	itemEMC.clear();
+			        	
+			        	subjCS.clearSelection();
+			        	subjIT.clearSelection();
+			        	subjIS.clearSelection();
+			        	subjEMC.clearSelection();
+			        	
+			        	subjStore.clear();
 			        }
 			        else if (selectedIndex == 3)
 			        {
@@ -536,30 +892,111 @@ public class loginFrame extends JFrame {
 			        	subjIT.setVisible(false);
 			        	subjIS.setVisible(false);
 			        	subjEMC.setVisible(true);
+			        	blank.setVisible(false);
 			        	
 			        	itemCS.clear();
 			        	itemIT.clear();
 			        	itemIS.clear();
 			        	itemEMC.clear();
+			        	
+			        	subjCS.clearSelection();
+			        	subjIT.clearSelection();
+			        	subjIS.clearSelection();
+			        	subjEMC.clearSelection();
+			        	
+			        	subjStore.clear();
 			        }
 			    }
 			}
 		});
 		SC.add(course);
 		
-		JButton btnNewButton = new JButton("Finalize");
+		JLabel congrats = new JLabel("Congratulations!");
+		congrats.setFont(new Font("Times New Roman", Font.BOLD, 15));
+		congrats.setBounds(213, 186, 135, 20);
+		SC.add(congrats);
+		
+		
+		JLabel enrolled = new JLabel("You are now enrolled to TDG University!");
+		enrolled.setFont(new Font("Times New Roman", Font.BOLD, 15));
+		enrolled.setBounds(145, 218, 285, 20);
+		SC.add(enrolled);
+		
+		JLabel pick = new JLabel("Pick a subject!");
+		pick.setForeground(new Color(255, 0, 0));
+		pick.setFont(new Font("Tahoma", Font.BOLD, 15));
+		pick.setBounds(515, 220, 122, 14);
+		SC.add(pick);
+		
+		pick.setVisible(false);
+		congrats.setVisible(false);
+		enrolled.setVisible(false);
+		
+		JButton enroll = new JButton("Enroll");
+		enroll.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				if(!subjStore.isEmpty())
+				{
+					congrats.setVisible(true);
+					enrolled.setVisible(true);
+					blank.setVisible(true);
+					
+		        	subjCS.setEnabled(false);
+		        	subjIT.setEnabled(false);
+		        	subjIS.setEnabled(false);
+		        	subjEMC.setEnabled(false);
+		        	
+		        	course.setEnabled(false);
+		        	
+		        	subjCS.clearSelection();
+		        	subjIT.clearSelection();
+		        	subjIS.clearSelection();
+		        	subjEMC.clearSelection();
+		        	
+		        	pick.setVisible(false);
+				}
+				else
+				{
+					pick.setVisible(true);
+				}
+			}
+		});
+		enroll.setBounds(305, 400, 89, 23);
+		SC.add(enroll);
+		
+		textField_5 = new JTextField();
+		textField_5.setBounds(30, 95, 90, 25);
+		SC.add(textField_5);
+		textField_5.setColumns(10);
+		
+		JButton btnNewButton = new JButton("Reset");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
+				course.setSelectedIndex(-1);
 				
+	        	subjCS.clearSelection();
+	        	subjIT.clearSelection();
+	        	subjIS.clearSelection();
+	        	subjEMC.clearSelection();
+	        	subjStore.clear();
+				
+	        	subjCS.setEnabled(true);
+	        	subjIT.setEnabled(true);
+	        	subjIS.setEnabled(true);
+	        	subjEMC.setEnabled(true);
+	        	
+	        	course.setEnabled(true);
+	        	
+	        	blank.setVisible(true);
+	        	pick.setVisible(false);
+	        	congrats.setVisible(false);
+	        	enrolled.setVisible(false);
 			}
 		});
-		btnNewButton.setBounds(525, 400, 90, 23);
+		btnNewButton.setBounds(30, 400, 89, 23);
 		SC.add(btnNewButton);
 		
-		
-		JButton btnNewButton_1 = new JButton("Enroll");
-		btnNewButton_1.setBounds(305, 400, 89, 23);
-		SC.add(btnNewButton_1);
 	}
 }
